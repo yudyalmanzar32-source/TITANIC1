@@ -131,7 +131,7 @@ html, body, [class*="css"] {
 # ----------------- AUXILIARY FUNCTIONS -----------------
 
 def load_models():
-    """Load trained models and metadata from local files."""
+    """Load trained models and metadata from local files, or train them on-the-fly as fallback."""
     try:
         with open('model_classifier.pkl', 'rb') as f:
             clf = pickle.load(f)
@@ -140,8 +140,51 @@ def load_models():
         with open('model_metadata.pkl', 'rb') as f:
             meta = pickle.load(f)
         return clf, reg, meta
-    except FileNotFoundError:
-        return None, None, None
+    except Exception as e:
+        # Fallback: Train models dynamically if pickles fail (e.g., version mismatch on cloud environments)
+        try:
+            from sklearn.linear_model import LogisticRegression, LinearRegression
+            
+            csv_path = 'titanic.csv'
+            if not os.path.exists(csv_path):
+                return None, None, None
+                
+            df = pd.read_csv(csv_path)
+            
+            # Impute missing values
+            age_median = df['Age'].median()
+            df['Age'] = df['Age'].fillna(age_median)
+            
+            embarked_mode = df['Embarked'].mode()[0]
+            df['Embarked'] = df['Embarked'].fillna(embarked_mode)
+            
+            fare_median = df['Fare'].median()
+            df['Fare'] = df['Fare'].fillna(fare_median)
+            
+            # Encode categoricals
+            df['Sex_encoded'] = df['Sex'].map({'male': 0, 'female': 1})
+            df['Embarked_encoded'] = df['Embarked'].map({'C': 0, 'Q': 1, 'S': 2})
+            
+            # Train Logistic Regression
+            X_clf = df[['Pclass', 'Sex_encoded', 'Age', 'SibSp', 'Parch', 'Fare', 'Embarked_encoded']]
+            y_clf = df['Survived']
+            clf = LogisticRegression(max_iter=1000)
+            clf.fit(X_clf, y_clf)
+            
+            # Train Linear Regression
+            X_reg = df[['Pclass', 'Sex_encoded', 'Age', 'SibSp', 'Parch', 'Embarked_encoded', 'Survived']]
+            y_reg = df['Fare']
+            reg = LinearRegression()
+            reg.fit(X_reg, y_reg)
+            
+            meta = {
+                'age_median': age_median,
+                'fare_median': fare_median,
+                'embarked_mode': embarked_mode
+            }
+            return clf, reg, meta
+        except Exception as inner_e:
+            return None, None, None
 
 def simulate_cv_detection(image):
     """Draw bounding boxes and count passengers on an uploaded image."""
