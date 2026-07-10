@@ -24,6 +24,7 @@
                 <li><a href="#investigacion">Investigación</a></li>
                 <li><a href="#metodologia-componentes">Metodología</a></li>
                 <li><a href="#crisp-ml">Ciclo CRISP-ML</a></li>
+                <li><a href="#dashboard-streamlit">Dashboard</a></li>
                 <li><a href="#vision-artificial">Visión Artificial</a></li>
             </ul>
         </nav>
@@ -165,6 +166,54 @@
                         Evaluación del Modelo
                     </h3>
                     <p>Validación rigurosa a través de partición Train-Test. Cálculo de métricas: exactitud (Accuracy) y Matriz de Confusión para clasificación; coeficiente R² de determinación, MAE y MSE para la regresión continua del pasaje.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Streamlit Dashboard Section -->
+    <section class="section" id="dashboard-streamlit">
+        <div class="cv-showroom" style="flex-direction: row-reverse;">
+            <div class="cv-info">
+                <div class="badge-tag" style="background: rgba(59, 130, 246, 0.08); color: var(--blue); border-color: rgba(59, 130, 246, 0.2);">
+                    INTERFAZ DE DESPLIEGUE (STREAMLIT)
+                </div>
+                <h2>Panel de Control y Simulación</h2>
+                <p>Nuestra aplicación interactiva desarrollada en **Streamlit** sirve como el entorno de simulación y despliegue (Fase 5 de CRISP-ML). Permite al equipo de operaciones de la embarcación ingresar variables en tiempo real y obtener respuestas inmediatas del motor predictivo.</p>
+                
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <h4><i class="fa-solid fa-sliders"></i> Controles Dinámicos</h4>
+                        <p>Ajuste de edad, género, clase de cabina y acompañantes a bordo desde la barra lateral.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4><i class="fa-solid fa-calculator"></i> Motor de Inferencia Dual</h4>
+                        <p>Ejecución secuencial de los modelos de regresión y clasificación para resolver la interdependencia de datos.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4><i class="fa-solid fa-file-code"></i> Arquitectura de app.py</h4>
+                        <p>Desarrollado en Python puro usando Streamlit, pickle para deserialización y PIL para procesamiento visual.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4><i class="fa-solid fa-circle-check"></i> Resultados Inmediatos</h4>
+                        <p>Despliegue gráfico de la probabilidad de supervivencia con alertas visuales de color según el riesgo.</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <a href="http://localhost:8501" target="_blank" class="btn-primary">
+                        <i class="fa-solid fa-circle-play"></i> Abrir Aplicación Streamlit
+                    </a>
+                </div>
+            </div>
+            
+            <div class="cv-visual">
+                <div class="ar-image-wrapper" style="max-width: 100%;">
+                    <img src="assets/dashboard_predictions.png" alt="Dashboard Predictions Display">
+                    <div class="ar-caption">
+                        <h4><i class="fa-solid fa-gauge" style="color: var(--blue);"></i> Panel Predictivo</h4>
+                        <p>Monitoreo dinámico del costo estimado y la supervivencia calculada.</p>
+                    </div>
                 </div>
             </div>
         </div>
